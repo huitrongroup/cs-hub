@@ -1113,25 +1113,45 @@ async function generateReply(){
   btn.disabled=false;btn.innerHTML='⚡ Generate Reply';
 }
 
+// ─── Universal copy (works in iframes — no clipboard permission needed) ───
+function copyText(text){
+  // Try modern API first, fall back to execCommand
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text)
+      .then(function(){toast('✓ Copied!');})
+      .catch(function(){execCopy(text);});
+  } else {
+    execCopy(text);
+  }
+}
+function execCopy(text){
+  var ta=document.createElement('textarea');
+  ta.value=text;
+  ta.style.cssText='position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.focus();ta.select();
+  try{
+    var ok=document.execCommand('copy');
+    toast(ok?'✓ Copied!':'Copy failed — select text manually.',!ok?false:true);
+  }catch(e){
+    toast('Copy failed — select text manually.',false);
+  }
+  document.body.removeChild(ta);
+}
+
 function copyReply(){
   var text=document.getElementById('reply-output').textContent;
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(text).then(function(){toast('✓ Reply copied!');}).catch(function(){toast('Copy failed.',false);});
-  }else{toast('Copy not supported — select manually.',false);}
+  copyText(text);
 }
 
 // ─── Copy any element ──────────────────────────────────────────────────────
 function copyEl(id){
   var el=document.getElementById(id);
   if(!el)return;
-  // Get text but exclude button text inside
   var clone=el.cloneNode(true);
   var btns=clone.querySelectorAll('button');
   for(var i=0;i<btns.length;i++)btns[i].remove();
-  var text=clone.textContent.trim();
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(text).then(function(){toast('✓ Copied!');}).catch(function(){toast('Copy failed.',false);});
-  }else{toast('Copy not supported.',false);}
+  copyText(clone.textContent.trim());
 }
 
 // ─── Collapsible issues ────────────────────────────────────────────────────
