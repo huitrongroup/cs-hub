@@ -901,72 +901,41 @@ textarea{resize:vertical;line-height:1.55;}
         <div class="section-sub">Etsy requires 95%+ of first messages answered within 24 hours</div>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
-
-        <!-- Timer tool -->
-        <div style="grid-column:span 1;background:#1a1a17;border:1px solid #252521;border-radius:7px;padding:14px;">
-          <div style="font-size:11px;font-weight:700;color:#ecebe2;margin-bottom:10px;">⏱ Response Deadline Timer</div>
-          <div style="font-size:10px;color:#585751;margin-bottom:6px;">When did the message arrive?</div>
-          <div style="display:flex;gap:6px;margin-bottom:10px;">
-            <input type="time" id="ss-time-input" style="flex:1;background:#111110;border:1px solid #252521;color:#ecebe2;border-radius:4px;padding:6px 8px;font-size:12px;outline:none;">
-            <button class="btn btn-sec btn-sm" onclick="ssSetNow()">Now</button>
-          </div>
-          <button class="btn btn-gold btn-sm" style="width:100%;margin-bottom:12px;" onclick="ssStartTimer()">Start Timer</button>
-          <div id="ss-countdown-wrap" style="display:none;">
-            <div style="font-size:10px;color:#585751;margin-bottom:4px;">Time remaining to reply</div>
-            <div id="ss-countdown" style="font-size:26px;font-weight:700;letter-spacing:.04em;"></div>
-            <div id="ss-deadline-label" style="font-size:10px;margin-top:4px;"></div>
-            <div id="ss-status-bar" style="height:4px;border-radius:2px;margin-top:8px;transition:width .5s,background .5s;"></div>
-          </div>
-        </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
 
         <!-- What counts -->
         <div style="background:#1a1a17;border:1px solid #252521;border-radius:7px;padding:14px;">
-          <div style="font-size:11px;font-weight:700;color:#ecebe2;margin-bottom:10px;">✓ What counts toward rate</div>
-          <div style="font-size:11px;color:#90dcbf;line-height:1.8;">
+          <div style="font-size:11px;font-weight:700;color:#ecebe2;margin-bottom:10px;">✓ What counts toward your rate</div>
+          <div style="font-size:11px;color:#90dcbf;line-height:1.9;">
             ✓ First message in a new conversation<br>
             ✓ Any reply you send within 24 hrs<br>
             ✓ Replies sent on weekends &amp; holidays<br>
             ✓ Short replies ("Got it, on it!") still count<br>
-            ✓ Marking spam removes it from count
+            ✓ Marking a message as spam removes it from count
           </div>
         </div>
 
         <!-- What doesn't count + criteria -->
         <div style="background:#1a1a17;border:1px solid #252521;border-radius:7px;padding:14px;">
           <div style="font-size:11px;font-weight:700;color:#ecebe2;margin-bottom:10px;">✗ What does NOT count</div>
-          <div style="font-size:11px;color:#f3b2b4;line-height:1.8;margin-bottom:12px;">
-            ✗ Follow-up messages in same thread<br>
+          <div style="font-size:11px;color:#f3b2b4;line-height:1.9;margin-bottom:12px;">
+            ✗ Follow-up messages in the same thread<br>
             ✗ Auto-replies / away messages<br>
             ✗ Messages you send first<br>
             ✗ Order notifications from Etsy<br>
-            ✗ Messages marked as spam
+            ✗ Messages already marked as spam
           </div>
           <div style="border-top:1px solid #252521;padding-top:10px;">
             <div style="font-size:10px;font-weight:700;color:#f7bc62;margin-bottom:6px;">Star Seller Thresholds</div>
-            <div style="font-size:10px;color:#97978e;line-height:1.8;">
-              Response rate: <strong style="color:#ecebe2;">95%+</strong> within 24h<br>
+            <div style="font-size:10px;color:#97978e;line-height:1.9;">
+              Response rate: <strong style="color:#ecebe2;">95%+</strong> within 24 hours<br>
               On-time shipping: <strong style="color:#ecebe2;">95%+</strong><br>
               Avg review rating: <strong style="color:#ecebe2;">4.8+</strong><br>
-              Sales (last 3 mo): <strong style="color:#ecebe2;">5+</strong>
+              Sales (last 3 months): <strong style="color:#ecebe2;">5+</strong>
             </div>
           </div>
         </div>
 
-      </div>
-
-      <!-- Active timers log -->
-      <div style="background:#1a1a17;border:1px solid #252521;border-radius:7px;padding:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div style="font-size:11px;font-weight:700;color:#ecebe2;">Active Response Deadlines</div>
-          <button class="btn btn-ghost btn-xs" onclick="ssAddTimer()">+ Add message</button>
-        </div>
-        <div style="font-size:10px;color:#585751;margin-bottom:6px;display:grid;grid-template-columns:2fr 1fr 1fr 80px;gap:8px;padding:0 4px;">
-          <span>Customer / Note</span><span>Received</span><span>Deadline</span><span></span>
-        </div>
-        <div id="ss-timers-list">
-          <div style="color:#585751;font-size:11px;padding:10px 4px;">No active deadlines. Add a message above to start tracking.</div>
-        </div>
       </div>
 
     </div>
@@ -1167,7 +1136,7 @@ async function generateReply(){
   var tones={warm:'warm and friendly',professional:'professional and polished',brief:'brief and direct'};
 
   var pols=getPolicies();var can=getCanned();
-  var sys='You are a customer service assistant for an Etsy seller'+(shop!=='all'?' (shop: '+shop+')':'')+'. Write a reply to the customer message. Tone: '+tones[toneKey]+'. Be human and helpful. Output ONLY the reply — no subject, no preamble.';
+  var sys='You are a customer service assistant for an Etsy seller'+(shop!=='all'?' (shop: '+shop+')':'')+'. Write a reply to the customer message. Tone: '+tones[toneKey]+'. Be human and helpful. Output ONLY the reply — no subject, no preamble.'+(shop!=='all'?' End the message with this sign-off on its own line: — '+shop:'');
   if(pols.length){sys+='\n\n=== SHOP POLICIES ===';for(var i=0;i<pols.length;i++)sys+='\n['+pols[i].name+']\n'+pols[i].content;}
   if(can.length){sys+='\n\n=== CANNED TEMPLATES (adapt if relevant) ===';for(var j=0;j<can.length;j++)sys+='\n['+can[j].title+']\n'+can[j].body;}
 
@@ -1398,148 +1367,6 @@ function updateShopCount(){
   document.getElementById('shop-count-label').textContent=n+' shop'+(n===1?'':'s')+' · all channels';
 }
 
-// ─── Star Seller Tracker ───────────────────────────────────────────────────
-var ssTimers = [];       // [{id, note, received, deadline}]
-var ssInterval = null;
-
-function ssSetNow(){
-  var now = new Date();
-  var hh = String(now.getHours()).padStart(2,'0');
-  var mm = String(now.getMinutes()).padStart(2,'0');
-  document.getElementById('ss-time-input').value = hh+':'+mm;
-}
-
-function ssStartTimer(){
-  var val = document.getElementById('ss-time-input').value;
-  if(!val){ toast('Pick a time first.', false); return; }
-  var now = new Date();
-  var parts = val.split(':');
-  var received = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(parts[0]), parseInt(parts[1]), 0);
-  // If time is in the future (e.g. rep entered yesterday's message), subtract a day
-  if(received > now) received.setDate(received.getDate()-1);
-  var deadline = new Date(received.getTime() + 24*60*60*1000);
-  var wrap = document.getElementById('ss-countdown-wrap');
-  wrap.style.display = 'block';
-  ssTick(received, deadline, 'ss-countdown', 'ss-deadline-label', 'ss-status-bar');
-  if(ssInterval) clearInterval(ssInterval);
-  ssInterval = setInterval(function(){ ssTick(received, deadline, 'ss-countdown', 'ss-deadline-label', 'ss-status-bar'); }, 1000);
-}
-
-function ssTick(received, deadline, countId, labelId, barId){
-  var now = new Date();
-  var remaining = deadline - now;
-  var elapsed   = now - received;
-  var total     = deadline - received; // 24h in ms
-  var cd = document.getElementById(countId);
-  var lb = document.getElementById(labelId);
-  var bar= document.getElementById(barId);
-  if(!cd) return;
-  if(remaining <= 0){
-    cd.textContent = 'EXPIRED';
-    cd.style.color = '#d96b6b';
-    if(lb) lb.textContent = 'Deadline passed — check your response rate.';
-    if(lb) lb.style.color = '#d96b6b';
-    if(bar){ bar.style.width='100%'; bar.style.background='#d96b6b'; }
-    return;
-  }
-  var hrs  = Math.floor(remaining / 3600000);
-  var mins = Math.floor((remaining % 3600000) / 60000);
-  var secs = Math.floor((remaining % 60000) / 1000);
-  var str  = hrs+'h '+String(mins).padStart(2,'0')+'m '+String(secs).padStart(2,'0')+'s';
-  var pct  = Math.min(100, Math.floor((elapsed/total)*100));
-  var color = remaining > 6*3600000 ? '#90dcbf' : remaining > 2*3600000 ? '#f7bc62' : '#d96b6b';
-  cd.textContent = str;
-  cd.style.color = color;
-  if(lb){
-    var dStr = deadline.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    lb.textContent = 'Deadline: '+dStr;
-    lb.style.color = '#585751';
-  }
-  if(bar){ bar.style.width=pct+'%'; bar.style.background=color; }
-}
-
-function ssAddTimer(){
-  var note = '';
-  // Simple inline prompt using a visible input — no confirm/alert
-  var container = document.getElementById('ss-timers-list');
-  // Check if add-row already exists
-  if(document.getElementById('ss-add-row')) return;
-  var row = document.createElement('div');
-  row.id = 'ss-add-row';
-  row.style.cssText = 'display:grid;grid-template-columns:2fr 1fr 1fr 80px;gap:8px;padding:6px 4px;border-bottom:1px solid #1e1e1b;align-items:center;';
-  row.innerHTML = '<input type="text" id="ss-note-in" placeholder="Customer name or note…" style="font-size:11px;padding:5px 7px;background:#111110;border:1px solid #2e2e2a;color:#ecebe2;border-radius:4px;outline:none;">' +
-    '<input type="time" id="ss-recv-in" style="font-size:11px;padding:5px 7px;background:#111110;border:1px solid #2e2e2a;color:#ecebe2;border-radius:4px;outline:none;">' +
-    '<div style="font-size:10px;color:#585751;">auto-calc</div>' +
-    '<div style="display:flex;gap:4px;">' +
-      '<button class="btn btn-gold btn-xs" onclick="ssConfirmAdd()">Add</button>' +
-      '<button class="btn btn-ghost btn-xs" onclick="ssCancelAdd()">✕</button>' +
-    '</div>';
-  container.insertBefore(row, container.firstChild);
-  // Pre-fill time with now
-  var now = new Date();
-  document.getElementById('ss-recv-in').value = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-}
-
-function ssCancelAdd(){
-  var r = document.getElementById('ss-add-row');
-  if(r) r.remove();
-}
-
-function ssConfirmAdd(){
-  var note = document.getElementById('ss-note-in').value.trim() || 'Customer';
-  var val  = document.getElementById('ss-recv-in').value;
-  if(!val){ toast('Enter a received time.', false); return; }
-  var now  = new Date();
-  var parts= val.split(':');
-  var recv = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(parts[0]), parseInt(parts[1]), 0);
-  if(recv > now) recv.setDate(recv.getDate()-1);
-  var deadline = new Date(recv.getTime() + 24*60*60*1000);
-  var id = Date.now();
-  ssTimers.push({id:id, note:note, received:recv, deadline:deadline});
-  ssCancelAdd();
-  ssRenderTimers();
-  if(!ssInterval) ssInterval = setInterval(ssRenderTimers, 1000);
-  toast('✓ Deadline added!');
-}
-
-function ssRemoveTimer(id){
-  ssTimers = ssTimers.filter(function(t){ return t.id !== id; });
-  ssRenderTimers();
-}
-
-function ssRenderTimers(){
-  var el = document.getElementById('ss-timers-list');
-  if(!el) return;
-  if(!ssTimers.length){
-    el.innerHTML = '<div style="color:#585751;font-size:11px;padding:10px 4px;">No active deadlines. Add a message above to start tracking.</div>';
-    return;
-  }
-  var now = new Date();
-  var html = '';
-  for(var i=0; i<ssTimers.length; i++){
-    var t = ssTimers[i];
-    var remaining = t.deadline - now;
-    var color = remaining > 6*3600000 ? '#90dcbf' : remaining > 2*3600000 ? '#f7bc62' : '#d96b6b';
-    var timeStr;
-    if(remaining <= 0){
-      timeStr = '<span style="color:#d96b6b;font-weight:700;">EXPIRED</span>';
-    } else {
-      var hrs  = Math.floor(remaining/3600000);
-      var mins = Math.floor((remaining%3600000)/60000);
-      var secs = Math.floor((remaining%60000)/1000);
-      timeStr = '<span style="color:'+color+';font-weight:700;">'+hrs+'h '+String(mins).padStart(2,'0')+'m '+String(secs).padStart(2,'0')+'s</span>';
-    }
-    var recvStr = t.received.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    var dlStr   = t.deadline.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    html += '<div style="display:grid;grid-template-columns:2fr 1fr 1fr 80px;gap:8px;padding:7px 4px;border-bottom:1px solid #1e1e1b;align-items:center;">' +
-      '<div style="font-size:11px;color:#ecebe2;">'+esc(t.note)+'</div>' +
-      '<div style="font-size:11px;color:#97978e;">'+recvStr+'</div>' +
-      '<div style="font-size:11px;">'+timeStr+'</div>' +
-      '<button class="btn btn-danger btn-xs" onclick="ssRemoveTimer('+t.id+')">Done</button>' +
-    '</div>';
-  }
-  el.innerHTML = html;
-}
 
 // ─── Init ──────────────────────────────────────────────────────────────────
 updateShopCount();
