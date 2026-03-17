@@ -27,93 +27,51 @@ body {
   border-right: 1px solid #2e2e2a;
   overflow-y: auto;
 }
-
-.sidebar-header {
-  padding: 16px 14px 12px;
-  border-bottom: 1px solid #2e2e2a;
-}
-
-.sidebar-title { font-size: 15px; font-weight: 600; color: #ecebe2; }
-.sidebar-sub   { font-size: 10px; color: #585751; margin-top: 3px; }
+.sidebar-header { padding: 16px 14px 12px; border-bottom: 1px solid #2e2e2a; }
+.sidebar-title  { font-size: 15px; font-weight: 600; color: #ecebe2; }
+.sidebar-sub    { font-size: 10px; color: #585751; margin-top: 3px; }
 
 .section-label {
-  font-size: 10px;
-  color: #585751;
+  font-size: 10px; color: #585751;
   padding: 14px 14px 4px;
-  text-transform: uppercase;
-  letter-spacing: .06em;
+  text-transform: uppercase; letter-spacing: .06em;
 }
-
 .nav-item {
-  padding: 7px 14px;
-  cursor: pointer;
-  color: #97978e;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  padding: 7px 14px; cursor: pointer;
+  color: #97978e; font-size: 13px;
+  display: flex; align-items: center; gap: 8px;
   transition: background .15s, color .15s;
 }
-.nav-item:hover { background: #252521; color: #ecebe2; }
+.nav-item:hover  { background: #252521; color: #ecebe2; }
 .nav-item.active { background: #2a2a26; color: #ecebe2; }
 
-.badge {
-  margin-left: auto;
-  font-size: 10px;
-  padding: 1px 5px;
-  border-radius: 3px;
-}
+.badge { margin-left: auto; font-size: 10px; padding: 1px 5px; border-radius: 3px; }
 .badge-red   { background: #3e0d10; color: #f3b2b4; }
 .badge-green { background: #082821; color: #90dcbf; }
 .badge-gold  { background: #3a2700; color: #f7bc62; }
 
-.sentiment-box {
-  margin: 10px;
-  padding: 8px 10px;
-  background: #1c1c1a;
-  border-radius: 6px;
-  font-size: 10px;
-}
+.sentiment-box { margin: 10px; padding: 8px 10px; background: #1c1c1a; border-radius: 6px; font-size: 10px; }
 .sentiment-label { color: #585751; margin-bottom: 4px; }
 
 /* ── Main ────────────────────────────────────────────── */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 .view { display: none; flex: 1; flex-direction: column; overflow: hidden; }
 .view.active { display: flex; }
 
 .main-header {
-  padding: 14px 20px 12px;
-  border-bottom: 1px solid #2e2e2a;
-  background: #1e1e1b;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
+  padding: 14px 20px 12px; border-bottom: 1px solid #2e2e2a;
+  background: #1e1e1b; display: flex; align-items: center;
+  justify-content: space-between; flex-shrink: 0;
 }
 .main-title { font-size: 15px; font-weight: 600; }
-
-.main-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-}
+.main-content { flex: 1; overflow-y: auto; padding: 20px; }
 
 /* ── Forms ───────────────────────────────────────────── */
 select, textarea, input[type="text"], input[type="password"] {
-  background: #151514;
-  border: 1px solid #2e2e2a;
-  color: #ecebe2;
-  border-radius: 5px;
-  font-family: inherit;
-  font-size: 12px;
-  padding: 8px 10px;
-  outline: none;
+  background: #151514; border: 1px solid #2e2e2a;
+  color: #ecebe2; border-radius: 5px;
+  font-family: inherit; font-size: 12px;
+  padding: 8px 10px; outline: none;
   transition: border-color .15s;
 }
 select:focus, textarea:focus, input:focus { border-color: #f7bc62; }
@@ -122,19 +80,12 @@ textarea { resize: vertical; line-height: 1.5; }
 
 /* ── Buttons ─────────────────────────────────────────── */
 .btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  transition: opacity .15s;
-  white-space: nowrap;
+  padding: 8px 16px; border: none; border-radius: 5px;
+  cursor: pointer; font-family: inherit; font-size: 13px;
+  font-weight: 500; transition: opacity .15s; white-space: nowrap;
 }
-.btn:hover   { opacity: .85; }
+.btn:hover    { opacity: .85; }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
-
 .btn-primary   { background: #f7bc62; color: #151514; }
 .btn-secondary { background: #2e2e2a; color: #ecebe2; }
 .btn-ghost     { background: transparent; color: #97978e; border: 1px solid #2e2e2a; }
@@ -148,117 +99,87 @@ label { font-size: 11px; color: #585751; }
 
 /* ── Reply output ────────────────────────────────────── */
 .reply-output {
-  background: #151514;
-  border: 1px solid #2e2e2a;
-  border-radius: 5px;
-  padding: 12px;
-  min-height: 120px;
-  color: #ecebe2;
-  font-size: 12px;
-  line-height: 1.6;
-  white-space: pre-wrap;
+  background: #151514; border: 1px solid #2e2e2a;
+  border-radius: 5px; padding: 12px;
+  min-height: 120px; color: #ecebe2;
+  font-size: 12px; line-height: 1.6; white-space: pre-wrap;
 }
 .placeholder { color: #585751; }
 
 /* ── Memory items ────────────────────────────────────── */
 .add-form {
-  background: #1c1c1a;
-  border: 1px solid #2e2e2a;
-  border-radius: 6px;
-  padding: 14px;
-  margin-bottom: 16px;
+  background: #1c1c1a; border: 1px solid #2e2e2a;
+  border-radius: 6px; padding: 14px; margin-bottom: 16px;
 }
 .add-form-title { font-size: 12px; font-weight: 500; color: #ecebe2; margin-bottom: 10px; }
 
 .memory-item {
-  background: #1c1c1a;
-  border: 1px solid #2e2e2a;
-  border-radius: 6px;
-  padding: 12px 14px;
-  margin-bottom: 10px;
+  background: #1c1c1a; border: 1px solid #2e2e2a;
+  border-radius: 6px; padding: 12px 14px; margin-bottom: 10px;
 }
 .memory-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 6px;
-  gap: 8px;
+  display: flex; justify-content: space-between;
+  align-items: flex-start; margin-bottom: 6px; gap: 8px;
 }
 .memory-item-name { font-weight: 500; color: #f7bc62; font-size: 12px; }
 .memory-item-body {
-  font-size: 11px;
-  color: #97978e;
-  line-height: 1.5;
-  max-height: 72px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
+  font-size: 11px; color: #97978e; line-height: 1.5;
+  max-height: 72px; overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
 }
 
 /* ── Banners ─────────────────────────────────────────── */
 .banner {
-  border-radius: 6px;
-  padding: 10px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-  font-size: 12px;
+  border-radius: 6px; padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px; font-size: 12px;
 }
 .banner-warn { background: #311b03; border: 1px solid #5a3610; color: #f7bc62; }
 
-/* ── Memory indicator pill ───────────────────────────── */
+/* ── Memory pill ─────────────────────────────────────── */
 .mem-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: #082821;
-  border: 1px solid #0d4a38;
-  color: #90dcbf;
-  font-size: 10px;
-  padding: 3px 8px;
-  border-radius: 20px;
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #082821; border: 1px solid #0d4a38;
+  color: #90dcbf; font-size: 10px;
+  padding: 3px 8px; border-radius: 20px;
 }
 .mem-dot { width: 5px; height: 5px; border-radius: 50%; background: #90dcbf; }
 
 /* ── Spinner ─────────────────────────────────────────── */
 .spinner {
-  display: inline-block;
-  width: 13px; height: 13px;
-  border: 2px solid #585751;
-  border-top-color: #f7bc62;
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
-  vertical-align: middle;
-  margin-right: 6px;
+  display: inline-block; width: 13px; height: 13px;
+  border: 2px solid #585751; border-top-color: #f7bc62;
+  border-radius: 50%; animation: spin .7s linear infinite;
+  vertical-align: middle; margin-right: 6px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── Toast ───────────────────────────────────────────── */
 #toast {
-  position: fixed;
-  bottom: 20px; right: 20px;
-  background: #082821;
-  color: #90dcbf;
-  border: 1px solid #0d4a38;
-  padding: 8px 14px;
-  border-radius: 5px;
-  font-size: 12px;
-  opacity: 0;
-  transition: opacity .2s;
-  pointer-events: none;
-  z-index: 999;
+  position: fixed; bottom: 20px; right: 20px;
+  padding: 8px 14px; border-radius: 5px;
+  font-size: 12px; opacity: 0; transition: opacity .2s;
+  pointer-events: none; z-index: 999;
 }
 #toast.show { opacity: 1; }
 
-/* ── Empty state ─────────────────────────────────────── */
-.empty-state {
-  text-align: center;
-  color: #585751;
-  font-size: 12px;
-  padding: 32px 20px;
+/* ── Custom modal (replaces confirm/alert) ───────────── */
+#modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.6); z-index: 1000;
+  align-items: center; justify-content: center;
 }
+#modal-overlay.show { display: flex; }
+#modal-box {
+  background: #1e1e1b; border: 1px solid #2e2e2a;
+  border-radius: 8px; padding: 20px 22px;
+  max-width: 340px; width: 90%;
+}
+#modal-msg  { font-size: 13px; color: #ecebe2; margin-bottom: 16px; line-height: 1.5; }
+#modal-btns { display: flex; justify-content: flex-end; gap: 8px; }
+
+/* ── Empty state ─────────────────────────────────────── */
+.empty-state { text-align: center; color: #585751; font-size: 12px; padding: 32px 20px; }
 .empty-state .icon { font-size: 26px; margin-bottom: 8px; }
 
 /* ── Scrollbar ───────────────────────────────────────── */
@@ -269,7 +190,7 @@ label { font-size: 11px; color: #585751; }
 </head>
 <body>
 
-<!-- ════════════════════════════════════════════════════ SIDEBAR -->
+<!-- ════════════════════════════════════════ SIDEBAR -->
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="sidebar-title">CS Hub</div>
@@ -278,9 +199,7 @@ label { font-size: 11px; color: #585751; }
 
   <div class="section-label">Views</div>
   <div class="nav-item active" id="nav-quick-reply" onclick="showView('quick-reply')">✦ Quick Reply</div>
-  <div class="nav-item" id="nav-inbox" onclick="showView('inbox')">
-    Inbox <span class="badge badge-red">8</span>
-  </div>
+  <div class="nav-item" id="nav-inbox"     onclick="showView('inbox')">Inbox <span class="badge badge-red">8</span></div>
   <div class="nav-item" id="nav-analytics" onclick="showView('analytics')">Analytics</div>
 
   <div class="section-label">Memory</div>
@@ -297,7 +216,6 @@ label { font-size: 11px; color: #585751; }
   <div class="nav-item" id="nav-settings" onclick="showView('settings')">⚙ Settings</div>
 
   <div style="flex:1"></div>
-
   <div class="sentiment-box">
     <div class="sentiment-label">Today's sentiment</div>
     <div style="color:#90dcbf;font-size:11px;margin-bottom:2px;">78% positive</div>
@@ -305,21 +223,19 @@ label { font-size: 11px; color: #585751; }
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════ MAIN -->
+<!-- ════════════════════════════════════════ MAIN -->
 <div class="main">
 
-  <!-- ── Quick Reply ──────────────────────────────────── -->
+  <!-- Quick Reply -->
   <div class="view active" id="view-quick-reply">
     <div class="main-header">
       <div class="main-title">Quick Reply</div>
       <div id="qr-mem-pill"></div>
     </div>
     <div class="main-content">
-
       <div class="banner banner-warn" id="qr-no-key-banner" style="display:none">
         🔑 No API key saved — go to <strong style="margin:0 3px;">Settings</strong> to add your Anthropic key.
       </div>
-
       <div class="row">
         <div class="col">
           <label>Shop</label>
@@ -334,38 +250,29 @@ label { font-size: 11px; color: #585751; }
           </select>
         </div>
       </div>
-
       <div style="margin-bottom:14px;">
         <label style="display:block;margin-bottom:5px;">Customer message</label>
         <textarea id="qr-message" style="width:100%;height:110px;" placeholder="Paste the customer's message here…"></textarea>
       </div>
-
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
         <button class="btn btn-primary" id="gen-btn" onclick="generateReply()">Generate reply</button>
         <button class="btn btn-ghost btn-sm" id="copy-btn" onclick="copyReply()" style="display:none">Copy to clipboard</button>
       </div>
-
       <div>
         <label style="display:block;margin-bottom:5px;">Generated reply</label>
-        <div class="reply-output" id="reply-output">
-          <span class="placeholder">Your reply will appear here…</span>
-        </div>
-        <div style="font-size:10px;color:#585751;margin-top:6px;">
-          Paste a message → generate → copy → paste into Etsy. That's the full workflow.
-        </div>
+        <div class="reply-output" id="reply-output"><span class="placeholder">Your reply will appear here…</span></div>
+        <div style="font-size:10px;color:#585751;margin-top:6px;">Paste a message → generate → copy → paste into Etsy. That's the full workflow.</div>
       </div>
-
     </div>
   </div>
 
-  <!-- ── Policies ─────────────────────────────────────── -->
+  <!-- Policies -->
   <div class="view" id="view-policies">
     <div class="main-header">
       <div class="main-title">📋 Shop Policies</div>
       <div style="font-size:11px;color:#585751;">Injected into every AI reply you generate</div>
     </div>
     <div class="main-content">
-
       <div class="add-form">
         <div class="add-form-title">Add a policy</div>
         <div style="margin-bottom:10px;">
@@ -378,46 +285,40 @@ label { font-size: 11px; color: #585751; }
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
           <button class="btn btn-primary btn-sm" onclick="savePolicy()">Save policy</button>
-          <span style="font-size:10px;color:#585751;">AI will follow these rules when writing replies.</span>
+          <span style="font-size:10px;color:#585751;">AI will follow these rules in every reply.</span>
         </div>
       </div>
-
       <div id="policies-list"></div>
     </div>
   </div>
 
-  <!-- ── Canned Replies ───────────────────────────────── -->
+  <!-- Canned Replies -->
   <div class="view" id="view-canned">
     <div class="main-header">
       <div class="main-title">💬 Canned Replies</div>
-      <div style="font-size:11px;color:#585751;">AI adapts these templates to each specific message</div>
+      <div style="font-size:11px;color:#585751;">AI adapts these to each specific message</div>
     </div>
     <div class="main-content">
-
       <div class="add-form">
         <div class="add-form-title">Add a canned reply</div>
         <div style="margin-bottom:10px;">
           <label style="display:block;margin-bottom:5px;">Title</label>
-          <input type="text" id="can-title" style="width:100%;" placeholder="e.g. Shipping delay, Custom order received, Order on its way…">
+          <input type="text" id="can-title" style="width:100%;" placeholder="e.g. Shipping delay, Custom order received…">
         </div>
         <div style="margin-bottom:10px;">
           <label style="display:block;margin-bottom:5px;">Reply template</label>
-          <textarea id="can-body" style="width:100%;height:90px;" placeholder="Write your template reply. AI will adapt it to fit the actual customer message."></textarea>
+          <textarea id="can-body" style="width:100%;height:90px;" placeholder="Write your template reply. AI will adapt it to the actual customer message."></textarea>
         </div>
         <button class="btn btn-primary btn-sm" onclick="saveCanned()">Save reply</button>
       </div>
-
       <div id="canned-list"></div>
     </div>
   </div>
 
-  <!-- ── Settings ─────────────────────────────────────── -->
+  <!-- Settings -->
   <div class="view" id="view-settings">
-    <div class="main-header">
-      <div class="main-title">⚙ Settings</div>
-    </div>
+    <div class="main-header"><div class="main-title">⚙ Settings</div></div>
     <div class="main-content" style="max-width:500px;">
-
       <div class="add-form">
         <div class="add-form-title">🔑 Anthropic API Key</div>
         <div style="margin-bottom:10px;">
@@ -429,7 +330,6 @@ label { font-size: 11px; color: #585751; }
         </div>
         <div style="font-size:10px;color:#585751;">Your key is stored locally in your browser and sent only to Anthropic's API.</div>
       </div>
-
       <div class="add-form" style="margin-top:4px;">
         <div class="add-form-title">🏪 Shops</div>
         <div style="display:flex;gap:8px;margin-bottom:10px;">
@@ -438,44 +338,48 @@ label { font-size: 11px; color: #585751; }
         </div>
         <div id="shops-list"></div>
       </div>
-
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid #2e2e2a;">
         <div style="font-size:11px;color:#585751;margin-bottom:8px;">Danger zone</div>
-        <button class="btn btn-danger btn-sm" onclick="clearAll()">Clear all memory &amp; settings</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmClearAll()">Clear all memory &amp; settings</button>
       </div>
-
     </div>
   </div>
 
-  <!-- ── Inbox (placeholder) ──────────────────────────── -->
+  <!-- Inbox placeholder -->
   <div class="view" id="view-inbox">
     <div class="main-header"><div class="main-title">Inbox</div></div>
     <div class="main-content">
       <div class="empty-state">
         <div class="icon">📬</div>
         Inbox integration coming soon.<br>
-        <span style="font-size:11px;margin-top:6px;display:block;">For now, paste messages into Quick Reply.</span>
+        <span style="font-size:11px;display:block;margin-top:6px;">For now, paste messages into Quick Reply.</span>
       </div>
     </div>
   </div>
 
-  <!-- ── Analytics (placeholder) ─────────────────────── -->
+  <!-- Analytics placeholder -->
   <div class="view" id="view-analytics">
     <div class="main-header"><div class="main-title">Analytics</div></div>
     <div class="main-content">
-      <div class="empty-state">
-        <div class="icon">📊</div>
-        Analytics coming soon.
-      </div>
+      <div class="empty-state"><div class="icon">📊</div>Analytics coming soon.</div>
     </div>
   </div>
 
 </div><!-- /main -->
 
+<!-- ════════════════════════════════════════ MODAL (replaces confirm/alert) -->
+<div id="modal-overlay">
+  <div id="modal-box">
+    <div id="modal-msg"></div>
+    <div id="modal-btns"></div>
+  </div>
+</div>
+
+<!-- Toast -->
 <div id="toast"></div>
 
 <script>
-// ─── Storage keys ─────────────────────────────────────────────────────────
+// ─── Storage keys ──────────────────────────────────────────────────────────
 const K = {
   apiKey:   'cshub_api_key',
   policies: 'cshub_policies',
@@ -483,7 +387,7 @@ const K = {
   shops:    'cshub_shops',
 };
 
-// ─── Helpers ──────────────────────────────────────────────────────────────
+// ─── Helpers ───────────────────────────────────────────────────────────────
 const esc = s => String(s)
   .replace(/&/g,'&amp;').replace(/</g,'&lt;')
   .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -492,29 +396,54 @@ function load(key, fallback) {
   try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
   catch { return fallback; }
 }
-const store  = (key, val)  => localStorage.setItem(key, JSON.stringify(val));
-const getKey = ()          => localStorage.getItem(K.apiKey) || '';
-const getPolicies = ()     => load(K.policies, []);
-const getCanned   = ()     => load(K.canned,   []);
-const getShops    = ()     => load(K.shops, [
+const store     = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+const getKey    = ()     => localStorage.getItem(K.apiKey) || '';
+const getPols   = ()     => load(K.policies, []);
+const getCanned = ()     => load(K.canned,   []);
+const getShops  = ()     => load(K.shops, [
   'TumblerFy','SandCoOstuni','KiddoCouture','LesBleusVowMoments','FondryHuitronCo'
 ]);
 
+// ─── Toast ────────────────────────────────────────────────────────────────
 let toastTimer;
 function toast(msg, ok = true) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
+  t.textContent   = msg;
   t.style.background  = ok ? '#082821' : '#3e0d10';
   t.style.color       = ok ? '#90dcbf' : '#f3b2b4';
-  t.style.borderColor = ok ? '#0d4a38' : '#6b1a1e';
+  t.style.border      = ok ? '1px solid #0d4a38' : '1px solid #6b1a1e';
   t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
 }
 
+// ─── Custom modal (no confirm() / alert()) ────────────────────────────────
+// showModal(message, buttons)
+// buttons = [{ label, style, action }]
+// style: 'primary' | 'danger' | 'ghost'
+function showModal(msg, buttons) {
+  document.getElementById('modal-msg').innerHTML = msg;
+  const btns = document.getElementById('modal-btns');
+  btns.innerHTML = '';
+  buttons.forEach(b => {
+    const el = document.createElement('button');
+    el.className = 'btn btn-' + (b.style || 'secondary') + ' btn-sm';
+    el.textContent = b.label;
+    el.onclick = () => { closeModal(); b.action && b.action(); };
+    btns.appendChild(el);
+  });
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+// Close on overlay click
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+});
+
 // ─── View routing ──────────────────────────────────────────────────────────
 const ALL_VIEWS = ['quick-reply','policies','canned','settings','inbox','analytics'];
-
 function showView(v) {
   ALL_VIEWS.forEach(id => {
     document.getElementById('view-' + id).classList.toggle('active', id === v);
@@ -533,8 +462,7 @@ function initQuickReply() {
   document.getElementById('qr-no-key-banner').style.display = hasKey ? 'none' : 'flex';
   document.getElementById('gen-btn').disabled = !hasKey;
 
-  // Populate shop dropdown
-  const sel = document.getElementById('qr-shop');
+  const sel  = document.getElementById('qr-shop');
   const prev = sel.value;
   sel.innerHTML = '<option value="all">All shops</option>';
   getShops().forEach(s => {
@@ -544,18 +472,15 @@ function initQuickReply() {
     sel.appendChild(o);
   });
 
-  // Memory pill
-  const policies = getPolicies();
+  const policies = getPols();
   const canned   = getCanned();
-  const pill = document.getElementById('qr-mem-pill');
-  const parts = [];
+  const parts    = [];
   if (policies.length) parts.push(policies.length + ' polic' + (policies.length === 1 ? 'y' : 'ies'));
-  if (canned.length)   parts.push(canned.length   + ' canned ' + (canned.length === 1 ? 'reply' : 'replies'));
-  if (parts.length) {
-    pill.innerHTML = `<div class="mem-pill"><div class="mem-dot"></div>Memory active: ${parts.join(' + ')}</div>`;
-  } else {
-    pill.innerHTML = '';
-  }
+  if (canned.length)   parts.push(canned.length + ' canned ' + (canned.length === 1 ? 'reply' : 'replies'));
+  const pill = document.getElementById('qr-mem-pill');
+  pill.innerHTML = parts.length
+    ? `<div class="mem-pill"><div class="mem-dot"></div>Memory active: ${parts.join(' + ')}</div>`
+    : '';
 }
 
 async function generateReply() {
@@ -567,10 +492,9 @@ async function generateReply() {
   const toneKey = document.getElementById('qr-tone').value;
   const toneMap = { warm: 'warm and friendly', professional: 'professional and polished', brief: 'brief and direct' };
 
-  const policies = getPolicies();
+  const policies = getPols();
   const canned   = getCanned();
 
-  // Build system prompt with memory
   let system = `You are a customer service assistant for an Etsy seller${shop !== 'all' ? ' (shop: ' + shop + ')' : ''}.
 Write a reply to the customer message below.
 
@@ -581,13 +505,11 @@ Output ONLY the reply text — no subject line, no preamble, just the message to
     system += '\n\n=== SHOP POLICIES (follow these strictly) ===';
     policies.forEach(p => { system += `\n\n[${p.name}]\n${p.content}`; });
   }
-
   if (canned.length) {
-    system += '\n\n=== CANNED REPLY TEMPLATES (adapt if relevant, otherwise ignore) ===';
+    system += '\n\n=== CANNED REPLY TEMPLATES (adapt if relevant) ===';
     canned.forEach(c => { system += `\n\n[${c.title}]\n${c.body}`; });
   }
 
-  // UI: loading state
   const btn    = document.getElementById('gen-btn');
   const output = document.getElementById('reply-output');
   btn.disabled = true;
@@ -616,7 +538,6 @@ Output ONLY the reply text — no subject line, no preamble, just the message to
       const err = await res.json().catch(() => ({}));
       throw new Error(err.error?.message || 'API error ' + res.status);
     }
-
     const data  = await res.json();
     const reply = data.content?.[0]?.text || '';
     output.textContent = reply;
@@ -624,7 +545,7 @@ Output ONLY the reply text — no subject line, no preamble, just the message to
 
   } catch (e) {
     output.innerHTML = `<span style="color:#f3b2b4;">Error: ${esc(e.message)}</span>`;
-    toast('Generation failed — check your API key.', false);
+    toast('Generation failed — check your API key in Settings.', false);
   }
 
   btn.disabled = false;
@@ -635,16 +556,18 @@ function copyReply() {
   const text = document.getElementById('reply-output').textContent;
   navigator.clipboard.writeText(text)
     .then(() => toast('✓ Copied to clipboard!'))
-    .catch(() => toast('Copy failed — try selecting manually.', false));
+    .catch(() => toast('Copy failed — try selecting the text manually.', false));
 }
 
 // ─── Policies ─────────────────────────────────────────────────────────────
 function savePolicy() {
   const name    = document.getElementById('pol-name').value.trim();
   const content = document.getElementById('pol-content').value.trim();
-  if (!name || !content) { toast('Fill in both fields first.', false); return; }
-
-  const list = getPolicies();
+  if (!name || !content) {
+    toast('Fill in both the name and content fields.', false);
+    return;
+  }
+  const list = getPols();
   list.push({ id: Date.now(), name, content });
   store(K.policies, list);
   document.getElementById('pol-name').value    = '';
@@ -655,20 +578,24 @@ function savePolicy() {
 }
 
 function deletePolicy(id) {
-  if (!confirm('Delete this policy?')) return;
-  store(K.policies, getPolicies().filter(p => p.id !== id));
-  updateBadges();
-  renderPolicies();
+  showModal('Delete this policy?', [
+    { label: 'Delete', style: 'danger', action: () => {
+        store(K.policies, getPols().filter(p => p.id !== id));
+        updateBadges();
+        renderPolicies();
+        toast('Policy deleted.');
+    }},
+    { label: 'Cancel', style: 'ghost' },
+  ]);
 }
 
 function renderPolicies() {
   const el   = document.getElementById('policies-list');
-  const list = getPolicies();
+  const list = getPols();
   if (!list.length) {
     el.innerHTML = `<div class="empty-state">
-      <div class="icon">📋</div>
-      No policies saved yet.<br>
-      <span style="font-size:11px;display:block;margin-top:6px;">Add your return, shipping, and custom order policies above — AI will follow them in every reply.</span>
+      <div class="icon">📋</div>No policies saved yet.<br>
+      <span style="font-size:11px;display:block;margin-top:6px;">Add your return, shipping, and custom order policies — AI will follow them in every reply.</span>
     </div>`;
     return;
   }
@@ -687,8 +614,10 @@ function renderPolicies() {
 function saveCanned() {
   const title = document.getElementById('can-title').value.trim();
   const body  = document.getElementById('can-body').value.trim();
-  if (!title || !body) { toast('Fill in both fields first.', false); return; }
-
+  if (!title || !body) {
+    toast('Fill in both the title and reply fields.', false);
+    return;
+  }
   const list = getCanned();
   list.push({ id: Date.now(), title, body });
   store(K.canned, list);
@@ -700,10 +629,15 @@ function saveCanned() {
 }
 
 function deleteCanned(id) {
-  if (!confirm('Delete this canned reply?')) return;
-  store(K.canned, getCanned().filter(c => c.id !== id));
-  updateBadges();
-  renderCanned();
+  showModal('Delete this canned reply?', [
+    { label: 'Delete', style: 'danger', action: () => {
+        store(K.canned, getCanned().filter(c => c.id !== id));
+        updateBadges();
+        renderCanned();
+        toast('Canned reply deleted.');
+    }},
+    { label: 'Cancel', style: 'ghost' },
+  ]);
 }
 
 function useCanned(id) {
@@ -720,9 +654,8 @@ function renderCanned() {
   const list = getCanned();
   if (!list.length) {
     el.innerHTML = `<div class="empty-state">
-      <div class="icon">💬</div>
-      No canned replies yet.<br>
-      <span style="font-size:11px;display:block;margin-top:6px;">Save common replies — AI will adapt them to match each customer's specific message.</span>
+      <div class="icon">💬</div>No canned replies yet.<br>
+      <span style="font-size:11px;display:block;margin-top:6px;">Save common replies — AI will adapt them to each customer's specific message.</span>
     </div>`;
     return;
   }
@@ -743,7 +676,7 @@ function renderCanned() {
 // ─── Settings ─────────────────────────────────────────────────────────────
 function saveApiKey() {
   const val = document.getElementById('api-key-input').value.trim();
-  if (!val) { toast('Enter a key first.', false); return; }
+  if (!val) { toast('Enter your API key first.', false); return; }
   localStorage.setItem(K.apiKey, val);
   document.getElementById('api-key-input').value = '';
   renderSettings();
@@ -751,10 +684,14 @@ function saveApiKey() {
 }
 
 function clearApiKey() {
-  if (!confirm('Remove your saved API key?')) return;
-  localStorage.removeItem(K.apiKey);
-  renderSettings();
-  toast('API key cleared.');
+  showModal('Remove your saved API key?', [
+    { label: 'Remove', style: 'danger', action: () => {
+        localStorage.removeItem(K.apiKey);
+        renderSettings();
+        toast('API key cleared.');
+    }},
+    { label: 'Cancel', style: 'ghost' },
+  ]);
 }
 
 function addShop() {
@@ -769,55 +706,58 @@ function addShop() {
 }
 
 function removeShop(name) {
-  store(K.shops, getShops().filter(s => s !== name));
-  renderSettings();
-  updateShopCount();
+  showModal(`Remove <strong>${esc(name)}</strong> from your shops?`, [
+    { label: 'Remove', style: 'danger', action: () => {
+        store(K.shops, getShops().filter(s => s !== name));
+        renderSettings();
+        updateShopCount();
+        toast('Shop removed.');
+    }},
+    { label: 'Cancel', style: 'ghost' },
+  ]);
+}
+
+function confirmClearAll() {
+  showModal('This will delete <strong>all policies, canned replies, shops, and your API key</strong>. This cannot be undone.', [
+    { label: 'Clear everything', style: 'danger', action: () => {
+        Object.values(K).forEach(k => localStorage.removeItem(k));
+        location.reload();
+    }},
+    { label: 'Cancel', style: 'ghost' },
+  ]);
 }
 
 function renderSettings() {
-  // API key field hint
   document.getElementById('api-key-input').placeholder = getKey()
     ? '●●●●●●●● (key saved — paste to replace)'
     : 'sk-ant-…';
 
-  // Shops list
   const el    = document.getElementById('shops-list');
   const shops = getShops();
-  if (!shops.length) {
-    el.innerHTML = '<div style="color:#585751;font-size:11px;">No shops yet.</div>';
-  } else {
-    el.innerHTML = shops.map(s => `
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #2e2e2a;">
-        <span style="font-size:12px;">${esc(s)}</span>
-        <button class="btn btn-danger btn-sm" onclick="removeShop('${esc(s)}')">Remove</button>
-      </div>
-    `).join('');
-  }
-}
-
-function clearAll() {
-  if (!confirm('Delete all policies, canned replies, shops, and your API key?\n\nThis cannot be undone.')) return;
-  Object.values(K).forEach(k => localStorage.removeItem(k));
-  location.reload();
+  el.innerHTML = !shops.length
+    ? '<div style="color:#585751;font-size:11px;">No shops yet.</div>'
+    : shops.map(s => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #2e2e2a;">
+          <span style="font-size:12px;">${esc(s)}</span>
+          <button class="btn btn-danger btn-sm" onclick="removeShop('${esc(s)}')">Remove</button>
+        </div>
+      `).join('');
 }
 
 // ─── Badges & counts ──────────────────────────────────────────────────────
 function updateBadges() {
-  const pc = getPolicies().length;
+  const pc = getPols().length;
   const cc = getCanned().length;
-
   const bp = document.getElementById('badge-policies');
-  bp.style.display = pc ? 'inline' : 'none';
-  bp.textContent = pc;
-
+  bp.style.display = pc ? 'inline' : 'none'; bp.textContent = pc;
   const bc = document.getElementById('badge-canned');
-  bc.style.display = cc ? 'inline' : 'none';
-  bc.textContent = cc;
+  bc.style.display = cc ? 'inline' : 'none'; bc.textContent = cc;
 }
 
 function updateShopCount() {
   const n = getShops().length;
-  document.getElementById('shop-count-label').textContent = n + ' shop' + (n === 1 ? '' : 's') + ' · all channels';
+  document.getElementById('shop-count-label').textContent =
+    n + ' shop' + (n === 1 ? '' : 's') + ' · all channels';
 }
 
 // ─── Init ──────────────────────────────────────────────────────────────────
