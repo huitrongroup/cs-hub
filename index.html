@@ -337,6 +337,24 @@ textarea{resize:vertical;line-height:1.55;}
 }
 #toast.show{opacity:1;}
 
+/* ── ANNOUNCEMENTS ────────────────────────── */
+.ann-bar{padding:12px 24px 0;}
+.ann-bar-title{font-size:9px;color:#585751;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.ann-banner{
+  display:flex;align-items:flex-start;gap:10px;
+  border-radius:6px;padding:10px 13px;margin-bottom:7px;
+  border-left:3px solid;
+}
+.ann-urgent{background:#1f0f0f;border-color:#d96b6b;}
+.ann-warning{background:#1a1208;border-color:#f7bc62;}
+.ann-info{background:#091b1a;border-color:#5bbcb0;}
+.ann-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.ann-body{flex:1;min-width:0;}
+.ann-msg{font-size:12px;color:#ecebe2;line-height:1.5;font-weight:500;}
+.ann-meta{font-size:10px;color:#585751;margin-top:2px;}
+.ann-del{background:transparent;border:none;cursor:pointer;color:#444441;font-size:16px;line-height:1;padding:0;flex-shrink:0;transition:color .12s;}
+.ann-del:hover{color:#f3b2b4;}
+
 /* ── REPLY MODE TABS ──────────────────────── */
 .reply-tabs{display:flex;gap:6px;margin-bottom:14px;}
 .reply-tab{
@@ -431,6 +449,11 @@ textarea{resize:vertical;line-height:1.55;}
     <span class="sb-badge sb-badge-gold" id="badge-canned" style="display:none"></span>
   </div>
 
+  <div class="sb-item" id="nav-announcements" onclick="showView('announcements')">
+    <span class="sb-icon">📢</span>Announcements
+    <span class="sb-badge sb-badge-red" id="badge-announcements" style="display:none"></span>
+  </div>
+
   <div class="sb-group">Setup</div>
   <div class="sb-item" id="nav-settings" onclick="showView('settings')"><span class="sb-icon">⚙</span>Settings</div>
 
@@ -448,6 +471,9 @@ textarea{resize:vertical;line-height:1.55;}
 
   <!-- ─── DASHBOARD (all sections) ──────── -->
   <div class="view active" id="view-dashboard">
+
+    <!-- ANNOUNCEMENTS BAR (pinned top) -->
+    <div id="announcements-bar" style="display:none;"></div>
 
     <!-- § 1 QUICK ACTIONS -->
     <div class="section" id="section-actions">
@@ -1134,6 +1160,40 @@ textarea{resize:vertical;line-height:1.55;}
     </div>
   </div>
 
+  <!-- ─── ANNOUNCEMENTS ─────────────────────── -->
+  <div class="view" id="view-announcements">
+    <div class="panel-header">
+      <div class="panel-title">📢 Manager Announcements</div>
+      <button class="btn btn-ghost btn-sm" onclick="showView('dashboard')">← Back to Hub</button>
+    </div>
+    <div class="panel-content" style="max-width:620px;">
+
+      <div class="add-form">
+        <div class="add-form-title">Post a new announcement</div>
+        <div style="margin-bottom:10px;">
+          <div class="field-label">Message</div>
+          <textarea id="ann-msg-input" style="width:100%;height:70px;" placeholder="e.g. We're out of black lids this week — offer white or silver as alternatives."></textarea>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:12px;">
+          <div style="flex:1;">
+            <div class="field-label">Priority</div>
+            <select id="ann-priority">
+              <option value="urgent">🔴 Urgent — act on this now</option>
+              <option value="warning" selected>🟡 Heads Up — important info</option>
+              <option value="info">🔵 Info — good to know</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="btn btn-gold btn-sm" onclick="saveAnnouncement()">📢 Post Announcement</button>
+          <span style="font-size:10px;color:#585751;">Pinned to the top of the hub — all reps see it immediately.</span>
+        </div>
+      </div>
+
+      <div id="ann-manage-list"></div>
+    </div>
+  </div>
+
   <!-- ─── SETTINGS ───────────────────────── -->
   <div class="view" id="view-settings">
     <div class="panel-header">
@@ -1173,7 +1233,7 @@ textarea{resize:vertical;line-height:1.55;}
 
 <script>
 // ─── Storage ───────────────────────────────────────────────────────────────
-var K={apiKey:'cshub_api_key',policies:'cshub_policies',canned:'cshub_canned',shops:'cshub_shops',handoff:'cshub_handoff'};
+var K={apiKey:'cshub_api_key',policies:'cshub_policies',canned:'cshub_canned',shops:'cshub_shops',handoff:'cshub_handoff',announcements:'cshub_announcements'};
 
 function loadData(k,fb){try{var r=localStorage.getItem(k);return r?JSON.parse(r):fb;}catch(e){return fb;}}
 function saveData(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
@@ -1200,7 +1260,7 @@ function toast(msg,ok){
 }
 
 // ─── Views ─────────────────────────────────────────────────────────────────
-var VIEWS=['dashboard','mem-policies','mem-canned','settings'];
+var VIEWS=['dashboard','mem-policies','mem-canned','announcements','settings'];
 var DASH_NAVS=['actions','reply','issues','templates','policies','tools','escalation','starseller','handoff'];
 
 function showView(v){
@@ -1209,7 +1269,7 @@ function showView(v){
     if(el)el.classList.toggle('active',VIEWS[i]===v);
   }
   // sidebar active state — only dashboard items get active class on scroll
-  var memNavs=['mem-policies','mem-canned','settings'];
+  var memNavs=['mem-policies','mem-canned','announcements','settings'];
   for(var j=0;j<memNavs.length;j++){
     var n=document.getElementById('nav-'+memNavs[j]);
     if(n)n.classList.toggle('active',memNavs[j]===v);
@@ -1221,10 +1281,11 @@ function showView(v){
     }
     document.getElementById('nav-actions').classList.add('active');
   }
-  if(v==='mem-policies') renderPolicies();
-  if(v==='mem-canned')   renderCanned();
-  if(v==='settings')     renderSettings();
-  if(v==='dashboard'){initQuickReply();renderHandoff();}
+  if(v==='mem-policies')   renderPolicies();
+  if(v==='mem-canned')     renderCanned();
+  if(v==='settings')       renderSettings();
+  if(v==='announcements')  renderAnnounceManage();
+  if(v==='dashboard'){initQuickReply();renderHandoff();renderAnnouncementsBar();}
 }
 
 // ─── Sidebar scroll nav ────────────────────────────────────────────────────
@@ -1562,6 +1623,78 @@ function clearAllStep(){
   }
 }
 
+// ─── Announcements ─────────────────────────────────────────────────────────
+function getAnnouncements(){return loadData(K.announcements,[]);}
+
+function saveAnnouncement(){
+  var msg=document.getElementById('ann-msg-input').value.trim();
+  if(!msg){toast('Write a message before posting.',false);return;}
+  var priority=document.getElementById('ann-priority').value;
+  var list=getAnnouncements();
+  list.unshift({id:Date.now(),msg:msg,priority:priority,ts:Date.now()});
+  saveData(K.announcements,list);
+  document.getElementById('ann-msg-input').value='';
+  updateBadges();renderAnnounceManage();renderAnnouncementsBar();
+  toast('✓ Announcement posted!');
+}
+
+function deleteAnnouncement(id){
+  var list=getAnnouncements();var f=[];
+  for(var i=0;i<list.length;i++)if(list[i].id!==id)f.push(list[i]);
+  saveData(K.announcements,f);
+  updateBadges();renderAnnounceManage();renderAnnouncementsBar();
+  toast('Announcement removed.');
+}
+
+var ANN_ICONS={urgent:'🚨',warning:'📣',info:'📌'};
+var ANN_LABELS={urgent:'URGENT',warning:'HEADS UP',info:'INFO'};
+
+function renderAnnouncementsBar(){
+  var bar=document.getElementById('announcements-bar');
+  if(!bar)return;
+  var list=getAnnouncements();
+  if(!list.length){bar.style.display='none';bar.innerHTML='';return;}
+  bar.style.display='block';
+  var h='<div class="ann-bar"><div class="ann-bar-title">📢 Manager Announcements</div>';
+  for(var i=0;i<list.length;i++){
+    var a=list[i];
+    var p=a.priority||'warning';
+    h+='<div class="ann-banner ann-'+p+'">'+
+      '<div class="ann-icon">'+ANN_ICONS[p]+'</div>'+
+      '<div class="ann-body">'+
+        '<div class="ann-msg">'+esc(a.msg)+'</div>'+
+        '<div class="ann-meta">'+ANN_LABELS[p]+' · '+fmtTs(a.ts)+'</div>'+
+      '</div>'+
+      '<button class="ann-del" title="Delete announcement" onclick="deleteAnnouncement('+a.id+')">×</button>'+
+    '</div>';
+  }
+  h+='</div>';
+  bar.innerHTML=h;
+}
+
+function renderAnnounceManage(){
+  var el=document.getElementById('ann-manage-list');
+  if(!el)return;
+  var list=getAnnouncements();
+  if(!list.length){
+    el.innerHTML='<div class="empty-st"><div class="ei">📢</div>No announcements posted yet.<br><span style="font-size:11px;display:block;margin-top:4px;">Post one above — it appears instantly at the top of the hub.</span></div>';
+    return;
+  }
+  var h='<div style="font-size:10px;color:#585751;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Active announcements</div>';
+  for(var i=0;i<list.length;i++){
+    var a=list[i];var p=a.priority||'warning';
+    h+='<div class="ann-banner ann-'+p+'" style="margin-bottom:8px;">'+
+      '<div class="ann-icon">'+ANN_ICONS[p]+'</div>'+
+      '<div class="ann-body">'+
+        '<div class="ann-msg">'+esc(a.msg)+'</div>'+
+        '<div class="ann-meta">'+ANN_LABELS[p]+' · '+fmtTs(a.ts)+'</div>'+
+      '</div>'+
+      '<button class="btn btn-danger btn-xs" onclick="deleteAnnouncement('+a.id+')">Delete</button>'+
+    '</div>';
+  }
+  el.innerHTML=h;
+}
+
 // ─── Shift Handoff Notes ───────────────────────────────────────────────────
 function getHandoffs(){return loadData(K.handoff,[]);}
 
@@ -1660,6 +1793,10 @@ function updateBadges(){
   var handoffs=getHandoffs();
   var bh=document.getElementById('badge-handoff');
   if(bh){var hasNew=handoffs.length&&(Date.now()-handoffs[0].ts<28800000);bh.style.display=hasNew?'inline':'none';}
+  // Announcements badge — show count
+  var ac=getAnnouncements().length;
+  var ba=document.getElementById('badge-announcements');
+  if(ba){ba.style.display=ac?'inline':'none';ba.textContent=ac;}
 }
 function updateShopCount(){
   var n=getShops().length;
@@ -1671,6 +1808,7 @@ function updateShopCount(){
 updateShopCount();
 updateBadges();
 renderHandoff();
+renderAnnouncementsBar();
 showView('dashboard');
 </script>
 </body>
