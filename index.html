@@ -460,7 +460,7 @@ textarea{resize:vertical;line-height:1.55;}
         <div class="reply-col">
           <div style="display:flex;flex-direction:column;height:100%;gap:8px;">
             <div class="field-label">Generated reply</div>
-            <div class="reply-area" id="reply-output"><span style="color:#444441;">Your reply will appear here…</span></div>
+            <textarea class="reply-area" id="reply-output" readonly placeholder="Your reply will appear here…" style="height:160px;cursor:default;"></textarea>
             <div class="reply-footer">
               <div class="workflow-hint">① Paste message → ② Generate → ③ Copy → ④ Paste into Etsy</div>
               <button class="btn btn-sec btn-sm" id="copy-reply-btn" onclick="copyReply()" style="display:none;">Copy reply</button>
@@ -1091,7 +1091,7 @@ async function generateReply(){
   var btn=document.getElementById('gen-btn');
   var out=document.getElementById('reply-output');
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Writing…';
-  out.innerHTML='<span style="color:#444441;">Writing your reply…</span>';
+  out.value='Writing your reply…';
   document.getElementById('copy-reply-btn').style.display='none';
 
   try{
@@ -1103,11 +1103,12 @@ async function generateReply(){
     if(!res.ok){var e={};try{e=await res.json();}catch(x){}throw new Error(e.error?e.error.message:'API error '+res.status);}
     var data=await res.json();
     var reply=data.content&&data.content[0]?data.content[0].text:'';
-    out.textContent=reply;
+    out.value=reply;
+    out.style.cursor='text';
     out.classList.add('output-active');
     document.getElementById('copy-reply-btn').style.display='inline-block';
   }catch(e){
-    out.innerHTML='<span style="color:#f3b2b4;">Error: '+esc(e.message)+'</span>';
+    out.value='Error: '+e.message;
     toast('Generation failed — check your API key.',false);
   }
   btn.disabled=false;btn.innerHTML='⚡ Generate Reply';
@@ -1140,8 +1141,16 @@ function execCopy(text){
 }
 
 function copyReply(){
-  var text=document.getElementById('reply-output').textContent;
-  copyText(text);
+  var ta=document.getElementById('reply-output');
+  ta.focus();
+  ta.select();
+  try{
+    var ok=document.execCommand('copy');
+    if(ok){toast('✓ Copied!');}
+    else{toast('Text selected — press Ctrl+C (or Cmd+C on Mac) to copy.',true);}
+  }catch(e){
+    toast('Text selected — press Ctrl+C (or Cmd+C on Mac) to copy.',true);
+  }
 }
 
 // ─── Copy any element ──────────────────────────────────────────────────────
@@ -1227,7 +1236,7 @@ function useCanned(id){
   showView('dashboard');
   setTimeout(function(){
     var out=document.getElementById('reply-output');
-    out.textContent=c.body;out.classList.add('output-active');
+    out.value=c.body;out.style.cursor='text';out.classList.add('output-active');
     document.getElementById('copy-reply-btn').style.display='inline-block';
     scrollTo('section-reply','reply');
   },60);
