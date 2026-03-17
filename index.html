@@ -337,6 +337,32 @@ textarea{resize:vertical;line-height:1.55;}
 }
 #toast.show{opacity:1;}
 
+/* ── REPLY MODE TABS ──────────────────────── */
+.reply-tabs{display:flex;gap:6px;margin-bottom:14px;}
+.reply-tab{
+  padding:6px 14px;border:1px solid #252521;
+  background:#151514;color:#7a7a72;
+  border-radius:5px;cursor:pointer;
+  font-family:inherit;font-size:11px;font-weight:600;
+  transition:background .12s,color .12s,border-color .12s;
+}
+.reply-tab:hover{background:#1e1e1b;color:#d4d3c9;}
+.reply-tab.active{background:#1e1e1b;color:#ecebe2;border-color:#f7bc62;}
+
+/* ── DROP ZONE ────────────────────────────── */
+.drop-zone{
+  background:#111110;border:2px dashed #252521;
+  border-radius:6px;padding:16px;text-align:center;
+  cursor:pointer;min-height:130px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;
+  transition:border-color .15s,background .15s;
+}
+.drop-zone:hover,.drop-zone.dz-hover{border-color:#f7bc62;background:#1a1208;}
+.dz-icon{font-size:26px;line-height:1;margin-bottom:4px;}
+.dz-title{font-size:12px;color:#ecebe2;font-weight:600;}
+.dz-sub{font-size:10px;color:#585751;}
+
 /* ── EMPTY STATE ──────────────────────────── */
 .empty-st{text-align:center;color:#585751;font-size:12px;padding:28px 16px;}
 .empty-st .ei{font-size:22px;margin-bottom:7px;}
@@ -466,14 +492,45 @@ textarea{resize:vertical;line-height:1.55;}
       <div class="no-key-banner" id="qr-no-key">
         🔑 No API key — go to <strong>Settings</strong> to add your Anthropic key before generating replies.
       </div>
+
+      <!-- Mode tabs -->
+      <div class="reply-tabs">
+        <button class="reply-tab active" id="tab-text"       onclick="switchReplyMode('text')">✏️ Type / Paste</button>
+        <button class="reply-tab"        id="tab-screenshot" onclick="switchReplyMode('screenshot')">📷 Screenshot</button>
+      </div>
+
       <div class="reply-layout">
         <!-- LEFT: input -->
         <div class="reply-col">
-          <div>
+
+          <!-- TEXT MODE -->
+          <div id="rm-text">
             <div class="field-label">Customer message</div>
             <textarea id="qr-message" style="height:150px;" placeholder="Paste customer's message here…"></textarea>
           </div>
-          <div style="display:flex;gap:10px;">
+
+          <!-- SCREENSHOT MODE -->
+          <div id="rm-screenshot" style="display:none;">
+            <div class="field-label">Conversation screenshot</div>
+            <div class="drop-zone" id="drop-zone"
+                 onclick="document.getElementById('img-input').click()"
+                 ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event)">
+              <input type="file" id="img-input" accept="image/*" style="display:none;" onchange="handleImageFile(this.files[0])">
+              <div id="dz-placeholder">
+                <div class="dz-icon">📷</div>
+                <div class="dz-title">Drop screenshot here</div>
+                <div class="dz-sub">or click to browse · PNG, JPG, WEBP</div>
+              </div>
+              <img id="img-preview" style="display:none;max-width:100%;max-height:130px;border-radius:4px;object-fit:contain;">
+              <div id="dz-remove" style="display:none;margin-top:8px;">
+                <button class="btn btn-ghost btn-xs" onclick="clearScreenshot(event)">✕ Remove image</button>
+              </div>
+            </div>
+            <div style="font-size:10px;color:#585751;margin-top:6px;">Take a screenshot of the Etsy message thread. AI reads the full conversation and replies in context.</div>
+          </div>
+
+          <!-- Shared: shop, tone, generate -->
+          <div style="display:flex;gap:10px;margin-top:10px;">
             <div style="flex:1;">
               <div class="field-label">Shop</div>
               <select id="qr-shop"></select>
@@ -487,17 +544,18 @@ textarea{resize:vertical;line-height:1.55;}
               </select>
             </div>
           </div>
-          <div>
+          <div style="margin-top:10px;">
             <button class="btn btn-gold" id="gen-btn" onclick="generateReply()" style="width:100%;padding:10px;">⚡ Generate Reply</button>
           </div>
+
         </div>
         <!-- RIGHT: output -->
         <div class="reply-col">
           <div style="display:flex;flex-direction:column;height:100%;gap:8px;">
             <div class="field-label">Generated reply</div>
-            <textarea class="reply-area" id="reply-output" readonly placeholder="Your reply will appear here…" style="height:160px;cursor:default;"></textarea>
+            <textarea class="reply-area" id="reply-output" readonly placeholder="Your reply will appear here…" style="height:200px;cursor:default;"></textarea>
             <div class="reply-footer">
-              <div class="workflow-hint">① Paste message → ② Generate → ③ Copy → ④ Paste into Etsy</div>
+              <div class="workflow-hint" id="qr-hint">① Paste message → ② Generate → ③ Copy → ④ Paste into Etsy</div>
               <button class="btn btn-sec btn-sm" id="copy-reply-btn" onclick="copyReply()" style="display:none;">Copy reply</button>
             </div>
           </div>
@@ -1187,6 +1245,57 @@ function navTo(sectionId, navId){
   },60);
 }
 
+// ─── Reply Mode (text / screenshot) ────────────────────────────────────────
+var replyMode='text';
+var screenshotData=null;
+var screenshotMime='image/png';
+
+function switchReplyMode(mode){
+  replyMode=mode;
+  document.getElementById('rm-text').style.display=mode==='text'?'':'none';
+  document.getElementById('rm-screenshot').style.display=mode==='screenshot'?'':'none';
+  document.getElementById('tab-text').classList.toggle('active',mode==='text');
+  document.getElementById('tab-screenshot').classList.toggle('active',mode==='screenshot');
+  var hint=document.getElementById('qr-hint');
+  if(hint)hint.textContent=mode==='screenshot'
+    ?'① Upload screenshot → ② Generate → ③ Copy → ④ Paste into Etsy'
+    :'① Paste message → ② Generate → ③ Copy → ④ Paste into Etsy';
+}
+
+function handleImageFile(file){
+  if(!file||!file.type.startsWith('image/'))return;
+  screenshotMime=file.type||'image/png';
+  var reader=new FileReader();
+  reader.onload=function(e){
+    screenshotData=e.target.result.split(',')[1];
+    var preview=document.getElementById('img-preview');
+    preview.src=e.target.result;
+    preview.style.display='block';
+    document.getElementById('dz-placeholder').style.display='none';
+    document.getElementById('dz-remove').style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearScreenshot(e){
+  if(e)e.stopPropagation();
+  screenshotData=null;
+  var preview=document.getElementById('img-preview');
+  preview.style.display='none';preview.src='';
+  document.getElementById('dz-placeholder').style.display='flex';
+  document.getElementById('dz-remove').style.display='none';
+  document.getElementById('img-input').value='';
+}
+
+function dzOver(e){e.preventDefault();document.getElementById('drop-zone').classList.add('dz-hover');}
+function dzLeave(e){document.getElementById('drop-zone').classList.remove('dz-hover');}
+function dzDrop(e){
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.remove('dz-hover');
+  var file=e.dataTransfer&&e.dataTransfer.files[0];
+  if(file)handleImageFile(file);
+}
+
 // ─── Quick Reply ───────────────────────────────────────────────────────────
 function initQuickReply(){
   var hasKey=!!getApiKey();
@@ -1213,29 +1322,41 @@ function initQuickReply(){
 
 async function generateReply(){
   var apiKey=getApiKey();
-  var message=document.getElementById('qr-message').value.trim();
-  if(!message){toast('Paste a customer message first.',false);return;}
-
   var shop=document.getElementById('qr-shop').value;
   var toneKey=document.getElementById('qr-tone').value;
   var tones={warm:'warm and friendly',professional:'professional and polished',brief:'brief and direct'};
-
   var pols=getPolicies();var can=getCanned();
-  var sys='You are a customer service assistant for an Etsy seller'+(shop!=='all'?' (shop: '+shop+')':'')+'. Write a reply to the customer message. Tone: '+tones[toneKey]+'. Be human and helpful. Output ONLY the reply — no subject, no preamble.'+(shop!=='all'?' End the message with this sign-off on its own line: — '+shop:'');
+
+  // Build system prompt
+  var sys='You are a customer service assistant for an Etsy seller'+(shop!=='all'?' (shop: '+shop+')':'')+'. Write a reply FROM THE SELLER to the customer. Tone: '+tones[toneKey]+'. Be human and helpful. Output ONLY the reply — no subject, no preamble.'+(shop!=='all'?' End the message with this sign-off on its own line: — '+shop:'');
   if(pols.length){sys+='\n\n=== SHOP POLICIES ===';for(var i=0;i<pols.length;i++)sys+='\n['+pols[i].name+']\n'+pols[i].content;}
   if(can.length){sys+='\n\n=== CANNED TEMPLATES (adapt if relevant) ===';for(var j=0;j<can.length;j++)sys+='\n['+can[j].title+']\n'+can[j].body;}
 
+  // Build messages array based on mode
+  var messages;
+  if(replyMode==='screenshot'){
+    if(!screenshotData){toast('Upload a screenshot first.',false);return;}
+    messages=[{role:'user',content:[
+      {type:'image',source:{type:'base64',media_type:screenshotMime,data:screenshotData}},
+      {type:'text',text:'This is a screenshot of an Etsy customer message thread. Read the full conversation carefully — including any previous messages, the customer\'s name, and order context visible on screen. Then write a reply from the seller following your system prompt instructions.'}
+    ]}];
+  } else {
+    var message=document.getElementById('qr-message').value.trim();
+    if(!message){toast('Paste a customer message first.',false);return;}
+    messages=[{role:'user',content:message}];
+  }
+
   var btn=document.getElementById('gen-btn');
   var out=document.getElementById('reply-output');
-  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Writing…';
-  out.value='Writing your reply…';
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Reading…';
+  out.value=replyMode==='screenshot'?'Reading screenshot…':'Writing your reply…';
   document.getElementById('copy-reply-btn').style.display='none';
 
   try{
     var res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:600,system:sys,messages:[{role:'user',content:message}]})
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:600,system:sys,messages:messages})
     });
     if(!res.ok){var e={};try{e=await res.json();}catch(x){}throw new Error(e.error?e.error.message:'API error '+res.status);}
     var data=await res.json();
