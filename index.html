@@ -1098,7 +1098,7 @@ async function generateReply(){
     var res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-3-5-haiku-20241022',max_tokens:600,system:sys,messages:[{role:'user',content:message}]})
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:600,system:sys,messages:[{role:'user',content:message}]})
     });
     if(!res.ok){var e={};try{e=await res.json();}catch(x){}throw new Error(e.error?e.error.message:'API error '+res.status);}
     var data=await res.json();
