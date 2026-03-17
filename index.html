@@ -340,6 +340,39 @@ textarea{resize:vertical;line-height:1.55;}
 /* ── EMPTY STATE ──────────────────────────── */
 .empty-st{text-align:center;color:#585751;font-size:12px;padding:28px 16px;}
 .empty-st .ei{font-size:22px;margin-bottom:7px;}
+
+/* ── SHIFT HANDOFF ────────────────────────── */
+.handoff-current{
+  background:#1a1a17;border:1px solid #3a2f1a;
+  border-radius:7px;padding:16px;margin-bottom:14px;
+  border-left:3px solid #f7bc62;
+}
+.handoff-current-hd{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:14px;
+}
+.handoff-rep{font-size:13px;font-weight:700;color:#f7bc62;}
+.handoff-shift-badge{
+  display:inline-block;font-size:10px;font-weight:600;
+  padding:2px 8px;border-radius:10px;margin-top:3px;
+  background:#3a2700;color:#f7bc62;border:1px solid #5a4010;
+}
+.handoff-ts{font-size:10px;color:#585751;text-align:right;}
+.handoff-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.handoff-field-full{grid-column:1/-1;}
+.handoff-field-lbl{font-size:10px;color:#585751;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;}
+.handoff-field-val{font-size:11px;color:#b0b0a4;line-height:1.6;white-space:pre-wrap;background:#111110;border:1px solid #1e1e1b;border-radius:4px;padding:8px;}
+.handoff-field-val.empty-val{color:#444441;font-style:italic;}
+
+.handoff-history-item{
+  background:#151514;border:1px solid #1e1e1b;
+  border-radius:5px;padding:9px 12px;margin-bottom:6px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+}
+.handoff-history-rep{font-size:11px;font-weight:600;color:#ecebe2;}
+.handoff-history-shift{font-size:10px;color:#f7bc62;margin-left:6px;}
+.handoff-history-ts{font-size:10px;color:#585751;margin-top:1px;}
+.handoff-history-preview{font-size:10px;color:#7a7a72;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:360px;}
 </style>
 </head>
 <body>
@@ -360,6 +393,7 @@ textarea{resize:vertical;line-height:1.55;}
   <div class="sb-item"        id="nav-tools"      onclick="navTo('section-tools','tools')"><span class="sb-icon">🛠</span>Tools</div>
   <div class="sb-item"        id="nav-escalation" onclick="navTo('section-escalation','escalation')"><span class="sb-icon">⚠️</span>Escalation</div>
   <div class="sb-item"        id="nav-starseller" onclick="navTo('section-starseller','starseller')"><span class="sb-icon">⭐</span>Star Seller</div>
+  <div class="sb-item"        id="nav-handoff"    onclick="navTo('section-handoff','handoff')"><span class="sb-icon">🔁</span>Handoff Notes<span class="sb-badge sb-badge-gold" id="badge-handoff" style="display:none">New</span></div>
 
   <div class="sb-group">Memory</div>
   <div class="sb-item" id="nav-mem-policies" onclick="showView('mem-policies')">
@@ -940,6 +974,57 @@ textarea{resize:vertical;line-height:1.55;}
 
     </div>
 
+    <!-- § 9 SHIFT HANDOFF NOTES -->
+    <div class="section" id="section-handoff">
+      <div class="section-hd">
+        <div class="section-title">🔁 Shift Handoff Notes</div>
+        <div class="section-sub">Log what's open — next rep picks up instantly</div>
+      </div>
+
+      <!-- Current handoff display -->
+      <div id="handoff-current-wrap"></div>
+
+      <!-- Log new handoff form -->
+      <div class="add-form" id="handoff-form">
+        <div class="add-form-title" style="margin-bottom:12px;">Log Handoff for Next Shift</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+          <div>
+            <div class="field-label">Your name</div>
+            <input type="text" id="hf-rep" placeholder="e.g. Maria, Carlos…">
+          </div>
+          <div>
+            <div class="field-label">Shift ending</div>
+            <select id="hf-shift">
+              <option value="Morning">Morning</option>
+              <option value="Afternoon">Afternoon</option>
+              <option value="Evening">Evening</option>
+              <option value="Overnight">Overnight</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:10px;">
+          <div class="field-label">Open issues / pending cases</div>
+          <textarea id="hf-open" style="height:70px;" placeholder="e.g. Order #12345 — customer says item arrived broken, waiting on photo. Order #12399 — refund requested, needs manager approval."></textarea>
+        </div>
+        <div style="margin-bottom:10px;">
+          <div class="field-label">Follow-ups needed</div>
+          <textarea id="hf-followups" style="height:60px;" placeholder="e.g. Check if replacement for Order #12301 has shipped. Follow up with TumblerFy rep about color delays."></textarea>
+        </div>
+        <div style="margin-bottom:12px;">
+          <div class="field-label">Special notes / heads up</div>
+          <textarea id="hf-notes" style="height:55px;" placeholder="e.g. Customer @jane_doe has messaged 3x today — escalate if she messages again. Etsy system was slow this afternoon."></textarea>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="btn btn-gold btn-sm" onclick="saveHandoff()">💾 Save &amp; Hand Off</button>
+          <span style="font-size:10px;color:#585751;">Saved to memory — visible to all reps on this device.</span>
+        </div>
+      </div>
+
+      <!-- Previous handoffs -->
+      <div id="handoff-history-wrap"></div>
+
+    </div>
+
   </div><!-- /view-dashboard -->
 
   <!-- ─── MEMORY: POLICIES ───────────────── -->
@@ -1030,7 +1115,7 @@ textarea{resize:vertical;line-height:1.55;}
 
 <script>
 // ─── Storage ───────────────────────────────────────────────────────────────
-var K={apiKey:'cshub_api_key',policies:'cshub_policies',canned:'cshub_canned',shops:'cshub_shops'};
+var K={apiKey:'cshub_api_key',policies:'cshub_policies',canned:'cshub_canned',shops:'cshub_shops',handoff:'cshub_handoff'};
 
 function loadData(k,fb){try{var r=localStorage.getItem(k);return r?JSON.parse(r):fb;}catch(e){return fb;}}
 function saveData(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
@@ -1058,7 +1143,7 @@ function toast(msg,ok){
 
 // ─── Views ─────────────────────────────────────────────────────────────────
 var VIEWS=['dashboard','mem-policies','mem-canned','settings'];
-var DASH_NAVS=['actions','reply','issues','templates','policies','tools','escalation','starseller'];
+var DASH_NAVS=['actions','reply','issues','templates','policies','tools','escalation','starseller','handoff'];
 
 function showView(v){
   for(var i=0;i<VIEWS.length;i++){
@@ -1081,7 +1166,7 @@ function showView(v){
   if(v==='mem-policies') renderPolicies();
   if(v==='mem-canned')   renderCanned();
   if(v==='settings')     renderSettings();
-  if(v==='dashboard')    initQuickReply();
+  if(v==='dashboard'){initQuickReply();renderHandoff();}
 }
 
 // ─── Sidebar scroll nav ────────────────────────────────────────────────────
@@ -1356,11 +1441,104 @@ function clearAllStep(){
   }
 }
 
+// ─── Shift Handoff Notes ───────────────────────────────────────────────────
+function getHandoffs(){return loadData(K.handoff,[]);}
+
+function saveHandoff(){
+  var rep=document.getElementById('hf-rep').value.trim();
+  var shift=document.getElementById('hf-shift').value;
+  var open=document.getElementById('hf-open').value.trim();
+  var followups=document.getElementById('hf-followups').value.trim();
+  var notes=document.getElementById('hf-notes').value.trim();
+  if(!rep){toast('Enter your name before saving.',false);return;}
+  var entry={id:Date.now(),rep:rep,shift:shift,open:open,followups:followups,notes:notes,ts:Date.now()};
+  var list=getHandoffs();
+  list.unshift(entry); // newest first
+  if(list.length>10)list=list.slice(0,10); // keep last 10
+  saveData(K.handoff,list);
+  document.getElementById('hf-rep').value='';
+  document.getElementById('hf-open').value='';
+  document.getElementById('hf-followups').value='';
+  document.getElementById('hf-notes').value='';
+  updateBadges();renderHandoff();
+  toast('✓ Handoff saved — next rep is all set!');
+}
+
+function deleteHandoff(id){
+  var list=getHandoffs();var f=[];
+  for(var i=0;i<list.length;i++)if(list[i].id!==id)f.push(list[i]);
+  saveData(K.handoff,f);updateBadges();renderHandoff();toast('Handoff entry deleted.');
+}
+
+function fmtTs(ts){
+  var d=new Date(ts);
+  var days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var h=d.getHours();var m=d.getMinutes();
+  var ampm=h>=12?'PM':'AM';h=h%12||12;
+  return days[d.getDay()]+' '+String(d.getMonth()+1)+'/'+d.getDate()+' · '+h+':'+(m<10?'0':'')+m+' '+ampm;
+}
+
+function renderHandoff(){
+  var list=getHandoffs();
+  var cw=document.getElementById('handoff-current-wrap');
+  var hw=document.getElementById('handoff-history-wrap');
+  if(!list.length){
+    cw.innerHTML='<div class="empty-st"><div class="ei">🔁</div>No handoff logged yet.<br><span style="font-size:11px;display:block;margin-top:4px;">Fill in the form below at the end of your shift.</span></div>';
+    hw.innerHTML='';return;
+  }
+  // Most recent handoff — shown prominently
+  var cur=list[0];
+  var hasOpen=cur.open||'';var hasFollowups=cur.followups||'';var hasNotes=cur.notes||'';
+  cw.innerHTML='<div class="handoff-current">'+
+    '<div class="handoff-current-hd">'+
+      '<div><div class="handoff-rep">'+esc(cur.rep)+'</div><div class="handoff-shift-badge">'+esc(cur.shift)+' shift</div></div>'+
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">'+
+        '<div class="handoff-ts">'+fmtTs(cur.ts)+'</div>'+
+        '<button class="btn btn-danger btn-xs" onclick="deleteHandoff('+cur.id+')">Delete</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="handoff-fields">'+
+      '<div>'+
+        '<div class="handoff-field-lbl">📂 Open Issues / Cases</div>'+
+        '<div class="handoff-field-val'+(hasOpen?'':' empty-val')+'">'+(hasOpen?esc(hasOpen):'Nothing open — clean shift!')+' </div>'+
+      '</div>'+
+      '<div>'+
+        '<div class="handoff-field-lbl">🔔 Follow-ups Needed</div>'+
+        '<div class="handoff-field-val'+(hasFollowups?'':' empty-val')+'">'+(hasFollowups?esc(hasFollowups):'No follow-ups needed.')+' </div>'+
+      '</div>'+
+      '<div class="handoff-field-full">'+
+        '<div class="handoff-field-lbl">📌 Special Notes / Heads Up</div>'+
+        '<div class="handoff-field-val'+(hasNotes?'':' empty-val')+'">'+(hasNotes?esc(hasNotes):'No special notes.')+' </div>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+  // Previous handoffs
+  if(list.length<=1){hw.innerHTML='';return;}
+  var h='<div style="font-size:10px;color:#585751;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Previous handoffs</div>';
+  for(var i=1;i<list.length;i++){
+    var e=list[i];
+    var preview=(e.open||e.followups||e.notes||'No notes').replace(/\n/g,' ').substring(0,80);
+    h+='<div class="handoff-history-item">'+
+      '<div style="min-width:0;">'+
+        '<div><span class="handoff-history-rep">'+esc(e.rep)+'</span><span class="handoff-history-shift">'+esc(e.shift)+'</span></div>'+
+        '<div class="handoff-history-ts">'+fmtTs(e.ts)+'</div>'+
+        '<div class="handoff-history-preview">'+esc(preview)+(preview.length===80?'…':'')+'</div>'+
+      '</div>'+
+      '<button class="btn btn-danger btn-xs" style="flex-shrink:0;" onclick="deleteHandoff('+e.id+')">Delete</button>'+
+    '</div>';
+  }
+  hw.innerHTML=h;
+}
+
 // ─── Badges & counts ──────────────────────────────────────────────────────
 function updateBadges(){
   var pc=getPolicies().length;var cc=getCanned().length;
   var bp=document.getElementById('badge-policies');bp.style.display=pc?'inline':'none';bp.textContent=pc;
   var bc=document.getElementById('badge-canned');bc.style.display=cc?'inline':'none';bc.textContent=cc;
+  // Handoff badge — show "New" if there's a recent handoff (less than 8 hours old)
+  var handoffs=getHandoffs();
+  var bh=document.getElementById('badge-handoff');
+  if(bh){var hasNew=handoffs.length&&(Date.now()-handoffs[0].ts<28800000);bh.style.display=hasNew?'inline':'none';}
 }
 function updateShopCount(){
   var n=getShops().length;
@@ -1371,6 +1549,7 @@ function updateShopCount(){
 // ─── Init ──────────────────────────────────────────────────────────────────
 updateShopCount();
 updateBadges();
+renderHandoff();
 showView('dashboard');
 </script>
 </body>
