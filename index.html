@@ -352,13 +352,13 @@ textarea{resize:vertical;line-height:1.55;}
   </div>
 
   <div class="sb-group">Navigate</div>
-  <div class="sb-item active" id="nav-actions"    onclick="scrollTo('section-actions','actions')"><span class="sb-icon">⚡</span>Quick Actions</div>
-  <div class="sb-item"        id="nav-reply"      onclick="scrollTo('section-reply','reply')"><span class="sb-icon">💬</span>Quick Reply</div>
-  <div class="sb-item"        id="nav-issues"     onclick="scrollTo('section-issues','issues')"><span class="sb-icon">🔍</span>Common Issues</div>
-  <div class="sb-item"        id="nav-templates"  onclick="scrollTo('section-templates','templates')"><span class="sb-icon">📝</span>Templates</div>
-  <div class="sb-item"        id="nav-policies"   onclick="scrollTo('section-policies','policies')"><span class="sb-icon">📋</span>Policies</div>
-  <div class="sb-item"        id="nav-tools"      onclick="scrollTo('section-tools','tools')"><span class="sb-icon">🛠</span>Tools</div>
-  <div class="sb-item"        id="nav-escalation" onclick="scrollTo('section-escalation','escalation')"><span class="sb-icon">⚠️</span>Escalation</div>
+  <div class="sb-item active" id="nav-actions"    onclick="navTo('section-actions','actions')"><span class="sb-icon">⚡</span>Quick Actions</div>
+  <div class="sb-item"        id="nav-reply"      onclick="navTo('section-reply','reply')"><span class="sb-icon">💬</span>Quick Reply</div>
+  <div class="sb-item"        id="nav-issues"     onclick="navTo('section-issues','issues')"><span class="sb-icon">🔍</span>Common Issues</div>
+  <div class="sb-item"        id="nav-templates"  onclick="navTo('section-templates','templates')"><span class="sb-icon">📝</span>Templates</div>
+  <div class="sb-item"        id="nav-policies"   onclick="navTo('section-policies','policies')"><span class="sb-icon">📋</span>Policies</div>
+  <div class="sb-item"        id="nav-tools"      onclick="navTo('section-tools','tools')"><span class="sb-icon">🛠</span>Tools</div>
+  <div class="sb-item"        id="nav-escalation" onclick="navTo('section-escalation','escalation')"><span class="sb-icon">⚠️</span>Escalation</div>
 
   <div class="sb-group">Memory</div>
   <div class="sb-item" id="nav-mem-policies" onclick="showView('mem-policies')">
@@ -395,27 +395,27 @@ textarea{resize:vertical;line-height:1.55;}
         <div class="section-sub">Click → Act → Solve</div>
       </div>
       <div class="action-grid">
-        <div class="action-card ac-gold"   onclick="scrollTo('section-reply','reply')">
+        <div class="action-card ac-gold"   onclick="navTo('section-reply','reply')">
           <div class="ac-icon">💬</div>
           <div class="ac-body"><div class="ac-title">Generate Quick Reply</div><div class="ac-sub">AI reply in seconds</div></div>
         </div>
-        <div class="action-card ac-green"  onclick="openIssue('refund');scrollTo('section-issues','issues')">
+        <div class="action-card ac-green"  onclick="openIssue('refund');navTo('section-issues','issues')">
           <div class="ac-icon">💸</div>
           <div class="ac-body"><div class="ac-title">Refund Process</div><div class="ac-sub">Decision tree + template</div></div>
         </div>
-        <div class="action-card ac-teal"   onclick="openIssue('replacement');scrollTo('section-issues','issues')">
+        <div class="action-card ac-teal"   onclick="openIssue('replacement');navTo('section-issues','issues')">
           <div class="ac-icon">🔄</div>
           <div class="ac-body"><div class="ac-title">Replacement Process</div><div class="ac-sub">Decision tree + template</div></div>
         </div>
-        <div class="action-card ac-purple" onclick="openIssue('personalization');scrollTo('section-issues','issues')">
+        <div class="action-card ac-purple" onclick="openIssue('personalization');navTo('section-issues','issues')">
           <div class="ac-icon">✏️</div>
           <div class="ac-body"><div class="ac-title">Customization Help</div><div class="ac-sub">Edit &amp; clarification flow</div></div>
         </div>
-        <div class="action-card ac-orange" onclick="openIssue('not-arrived');scrollTo('section-issues','issues')">
+        <div class="action-card ac-orange" onclick="openIssue('not-arrived');navTo('section-issues','issues')">
           <div class="ac-icon">📦</div>
           <div class="ac-body"><div class="ac-title">Order Status Help</div><div class="ac-sub">Tracking &amp; delay workflow</div></div>
         </div>
-        <div class="action-card ac-red"    onclick="scrollTo('section-escalation','escalation')">
+        <div class="action-card ac-red"    onclick="navTo('section-escalation','escalation')">
           <div class="ac-icon">🚨</div>
           <div class="ac-body"><div class="ac-title">Escalate Issue</div><div class="ac-sub">When &amp; who to escalate to</div></div>
         </div>
@@ -822,7 +822,7 @@ textarea{resize:vertical;line-height:1.55;}
         <div class="section-sub">Quick access to your most-used resources</div>
       </div>
       <div class="tools-grid">
-        <div class="tool-card" onclick="scrollTo('section-reply','reply')">
+        <div class="tool-card" onclick="navTo('section-reply','reply')">
           <div class="tool-icon">💬</div>
           <div><div class="tool-title">Quick Reply Generator</div><div class="tool-sub">AI-powered → this page</div></div>
         </div>
@@ -838,7 +838,7 @@ textarea{resize:vertical;line-height:1.55;}
           <div class="tool-icon">✏️</div>
           <div><div class="tool-title">Customization Dashboard</div><div class="tool-sub">Custom order queue ↗</div></div>
         </a>
-        <div class="tool-card" onclick="scrollTo('section-policies','policies')">
+        <div class="tool-card" onclick="navTo('section-policies','policies')">
           <div class="tool-icon">📋</div>
           <div><div class="tool-title">Policy Reference</div><div class="tool-sub">Refund, shipping, custom rules</div></div>
         </div>
@@ -1038,7 +1038,7 @@ function showView(v){
 }
 
 // ─── Sidebar scroll nav ────────────────────────────────────────────────────
-function scrollTo(sectionId, navId){
+function navTo(sectionId, navId){
   showView('dashboard');
   setTimeout(function(){
     var el=document.getElementById(sectionId);
@@ -1238,7 +1238,7 @@ function useCanned(id){
     var out=document.getElementById('reply-output');
     out.value=c.body;out.style.cursor='text';out.classList.add('output-active');
     document.getElementById('copy-reply-btn').style.display='inline-block';
-    scrollTo('section-reply','reply');
+    navTo('section-reply','reply');
   },60);
   toast('✓ Template loaded!');
 }
